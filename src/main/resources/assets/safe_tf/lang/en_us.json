@@ -1,6 +1,9 @@
 {
   "effect.safe_tf.unsafe_serum": "Unsafe Serum",
+  "effect.safe_tf.suspicious_serum": "Suspicious Serum",
   "item.safe_tf.consciousness_syringe.desc": "What can possibly go wrong?",
   "item.safe_tf.consciousness_syringe": "Consciousness Syringe",
+  "item.safe_tf.suspicious_syringe": "Suspicious Syringe",
+  "item.safe_tf.suspicious_syringe.desc": "It was a very good offer. Almost too good.",
   "safe_tf.ct_tabs.safe_tf": "(Un)Safe Transfur"
 }

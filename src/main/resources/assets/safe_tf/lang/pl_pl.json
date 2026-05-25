@@ -1,6 +1,9 @@
 {
   "effect.safe_tf.unsafe_serum": "Niebezpieczne serum",
+  "effect.safe_tf.suspicious_serum": "Podejrzane serum",
   "item.safe_tf.consciousness_syringe.desc": "Co może pójść nie tak?",
   "item.safe_tf.consciousness_syringe": "Strzykawka zachowania świadomości",
+  "item.safe_tf.suspicious_syringe": "Podejrzana strzykawka",
+  "item.safe_tf.suspicious_syringe.desc": "Wyrwana z bazaru po okazyjnej cenie. Wręcz zbyt dobrej.",
   "safe_tf.ct_tabs.safe_tf": "(Un)Safe Transfur"
 }

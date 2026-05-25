@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.kjentytek303.safe_tf.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "safe_tf.refmap.json",
+  "mixins": [
+    "EffectInstanceMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+  ]
+}

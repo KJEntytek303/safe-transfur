@@ -1,6 +1,5 @@
 package net.kjentytek303.safe_tf.init;
 
-import net.kjentytek303.safe_tf.item.ConsciousnessSyringeItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,10 +22,10 @@ public class InitCTTabs {
 		);
 
 
-
 	public static void fillCTTabs(BuildCreativeModeTabContentsEvent event) {
 		if( event.getTabKey() == InitCTTabs.SAFE_TF_CT_TAB.getKey() ) {
 			event.accept(InitItems.CONSCIOUSNESS_SYRINGE.get());
+			event.accept(InitItems.SUSPICIOUS_SYRINGE.get());
 		}
 	}
 }

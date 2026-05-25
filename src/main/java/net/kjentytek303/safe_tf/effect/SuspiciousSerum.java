@@ -4,14 +4,16 @@ import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
 import net.foxyas.changedaddon.network.ChangedAddonVariables;
 import net.foxyas.changedaddon.network.packet.ClientboundOpenFTKCScreenPacket;
-import net.foxyas.changedaddon.qte.FightToKeepConsciousness.MinigameType;
+import net.foxyas.changedaddon.qte.FightToKeepConsciousness;
 import net.kjentytek303.safe_tf.config.ServerCfg;
-import net.kjentytek303.safe_tf.init.InitEffects;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
+import net.minecraft.Util;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -25,24 +27,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.failFTKC;
 import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.getStruggleNeed;
 import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.getStruggleTime;
 import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.successFTKC;
+import static net.kjentytek303.safe_tf.init.InitEffects.SUSPICIOUS_SERUM;
 
 
-public class UnsafeSerum extends MobEffect {
+public class SuspiciousSerum extends MobEffect {
 
-	public UnsafeSerum() {
-		super(MobEffectCategory.NEUTRAL, 0x9F9F9F);
+	public SuspiciousSerum() {
+		super(MobEffectCategory.NEUTRAL, 0xfffff);
 	}
 
 	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 
-	//Ban milk from curing this shit
 	@Override
 	public List<ItemStack> getCurativeItems() {
 		return new ArrayList<>();
@@ -50,12 +53,26 @@ public class UnsafeSerum extends MobEffect {
 
 	@Override
 	public void applyEffectTick(@NotNull LivingEntity pLivingEntity, int pAmplifier) {
-		//Deal damage similar to poison V
-		if (pLivingEntity.getHealth() > 3.5F) {
-			pLivingEntity.hurt(pLivingEntity.damageSources().wither(), 3.0F);
-		}
-		else if (pLivingEntity.getHealth() > 1.5f) {
-			pLivingEntity.hurt(pLivingEntity.damageSources().wither(), 1.0F);
+		pLivingEntity.getRandom().nextDouble();
+		MobEffectInstance effect_instance = pLivingEntity.getEffect(SUSPICIOUS_SERUM.get());
+		if (effect_instance == null ) {	return; }
+
+		if( effect_instance instanceof SuspiciousSerumInstance experimentalSerumInstance ) {
+			if ( experimentalSerumInstance.should_insta_tf ) {
+				ProcessTransfur.progressTransfur(pLivingEntity, 3402823466385288598.0f, (TransfurVariant) Util.getRandom((List) TransfurVariant.getPublicTransfurVariants().collect(Collectors.toList()), pLivingEntity.getRandom()));
+				pLivingEntity.removeEffect(SUSPICIOUS_SERUM.get());
+				return;
+			}
+			if (pLivingEntity.getHealth() > 3.5F) { pLivingEntity.hurt(pLivingEntity.damageSources().wither(), 2.25F); return; }
+
+			if (!experimentalSerumInstance.should_survive) {
+				pLivingEntity.hurt(pLivingEntity.damageSources().wither(), 3.0F);
+			}
+			else {
+				if (pLivingEntity.getHealth() > 1.5f) {
+					pLivingEntity.hurt(pLivingEntity.damageSources().wither(), 1.0F);
+				}
+			}
 		}
 	}
 
@@ -65,13 +82,14 @@ public class UnsafeSerum extends MobEffect {
 		public static void onTransfur(ProcessTransfur.KeepConsciousEvent event) {
 			if (event.shouldKeepConscious || event.player == null) {return;}
 
-			if (event.player.getEffect(InitEffects.UNSAFE_SERUM.get()) == null) {
+			if (event.player.getEffect(SUSPICIOUS_SERUM.get()) == null) {
 				return;
 			}
 
+
 			//TODO: Possibly move this to a function array.
 			//Player must have the effect.
-			if (!ModList.get().isLoaded("changed_addon") || ServerCfg.UNSAFE_SERUM_CADDON_HANDLING.get() == ServerCfg.CAddonHandleMode.FORCE_SAFE_TF) {
+			if (!ModList.get().isLoaded("changed_addon") || ServerCfg.SUSPICIOUS_SERUM_CADDON_HANDLING.get() == ServerCfg.CAddonHandleMode.FORCE_SAFE_TF) {
 				event.shouldKeepConscious = true;
 				return;
 			}
@@ -88,7 +106,7 @@ public class UnsafeSerum extends MobEffect {
 			}
 			if (!level.getGameRules().getBoolean(ChangedAddonGameRules.FIGHT_TO_KEEP_CONSCIOUSNESS)) {
 				ChangedAddonVariables.PlayerVariables vars1 = ChangedAddonVariables.ofOrDefault(player);
-				MinigameType minigameType = MinigameType.getRandom(player.getRandom());
+				FightToKeepConsciousness.MinigameType minigameType = FightToKeepConsciousness.MinigameType.getRandom(player.getRandom());
 				vars1.isTransfuredBySafeMethod = false;
 				updatePlayerVariables(vars1, minigameType, 0, player);
 				ChangedAddonMod.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> player), new ClientboundOpenFTKCScreenPacket(minigameType));
@@ -132,7 +150,7 @@ public class UnsafeSerum extends MobEffect {
 
 	}
 
-	private static void updatePlayerVariables(ChangedAddonVariables.PlayerVariables vars, MinigameType minigameType, int progress, Entity entity) {
+	private static void updatePlayerVariables(ChangedAddonVariables.PlayerVariables vars, FightToKeepConsciousness.MinigameType minigameType, int progress, Entity entity) {
 		vars.FTKCminigameType = minigameType;
 		vars.consciousnessFightProgress = progress;
 		vars.syncPlayerVariables(entity);
