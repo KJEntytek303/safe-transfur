@@ -1,6 +1,9 @@
 {
   "effect.safe_tf.unsafe_serum": "Nem biztonságos szérum",
+  "effect.safe_tf.suspicious_serum": "Gyanús szérum",
   "item.safe_tf.consciousness_syringe.desc": "Mi baj történhet?",
   "item.safe_tf.consciousness_syringe": "Eszmélet fecskendője",
+  "item.safe_tf.suspicious_syringe": "Gyanús fecskendő",
+  "item.safe_tf.suspicious_syringe.desc": "Nagyon jó ajánlat volt. Majdnem túl jó.",
   "safe_tf.ct_tabs.safe_tf": "(Un)Safe Transfur"
 }
