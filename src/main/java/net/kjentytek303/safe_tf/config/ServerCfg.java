@@ -35,8 +35,8 @@ public class ServerCfg {
 		SUSPICIOUS_SERUM_CADDON_HANDLING = BUILDER.defineEnum("suspicious-serum.caddon_handling", CAddonHandleMode.PLAY_CADDON_MINIGAME);
 
 		BUILDER.comment("Duration of the suspicious serum effect when applied via suspicious syringe in seconds");
-		BUILDER.comment("Default: 60");
-		SUSPICIOUS_SERUM_DURATION = BUILDER.defineInRange("suspicious-serum.default-effect-duration", 60, -1, 100000000);
+		BUILDER.comment("Default: 180");
+		SUSPICIOUS_SERUM_DURATION = BUILDER.defineInRange("suspicious-serum.default-effect-duration", 180, -1, 100000000);
 
 		BUILDER.comment("Chance that the suspicious serum effect will not kill the player");
 		BUILDER.comment("Default: 0.75");
