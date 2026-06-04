@@ -1,22 +1,27 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:lily_of_the_valley"
-    },
-    {
-      "item": "minecraft:fermented_spider_eye"
-    },
-    {
-      "item": "changed:blood_syringe"
-    },
-    {
-      "item": "minecraft:nether_wart"
-    },
-    {
-      "item": "minecraft:poisonous_potato"
-    }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mhm",
+    "gsg",
+    "mam"
   ],
+  "key": {
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "m": {
+      "item": "minecraft:magma_cream"
+    },
+    "s": {
+      "item": "safe_tf:suspicious_syringe"
+    },
+    "h": {
+      "item": "minecraft:ghast_tear"
+    },
+    "a": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
   "result": {
     "item": "safe_tf:consciousness_syringe"
   }
