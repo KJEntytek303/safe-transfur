@@ -10,11 +10,11 @@ import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 
 import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.failFTKC;
@@ -25,9 +25,9 @@ import static net.kjentytek303.safe_tf.config.ServerCfg.SUSPICIOUS_SERUM_CADDON_
 import static net.kjentytek303.safe_tf.config.ServerCfg.UNSAFE_SERUM_CADDON_HANDLING;
 import static net.kjentytek303.safe_tf.init.InitEffects.*;
 
-
+@Mod.EventBusSubscriber
 public class EffectTransfurEventHandler {
-	@SubscribeEvent( priority = EventPriority.HIGH )
+	@SubscribeEvent
 	public static void onPlayerTransfur(ProcessTransfur.KeepConsciousEvent event) {
 		//if already safe tfed or not a player
 		if (event.keepConscious || event.shouldKeepConscious || event.player == null) {return;}
@@ -44,7 +44,6 @@ public class EffectTransfurEventHandler {
 			event.shouldKeepConscious = true;
 			return;
 		}
-
 
 		//CAddon compat start
 		event.shouldKeepConscious = handleCaddonCompatCfg(event);
